@@ -164,7 +164,11 @@ def main():
             pg.display.update()
             time.sleep(1)
             return
+        
 
+        if bomb is not None:
+            if beam is not None:
+                if beam.rct.coll
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
         if beam is not None:  # ビームが存在するときだけ
