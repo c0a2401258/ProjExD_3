@@ -159,6 +159,28 @@ class Score:
         screen.blit(self.img, self.rct)
 
 
+class Explosion:
+    """
+    爆弾の爆発するクラス
+    """
+    def __init__(self, bomb: "Bomb"):
+        self.img1 = pg.image.load("fig/explosion.gif")
+        self.img2 = pg.transform.flip(self.img1, True, True)
+        self.list = [self.img1, self.img2]
+        self.rct1 = self.img1.get_rect()  # 反転なし
+        self.rct2 = self.img2.get_rect()  # 反転あり
+        self.rct1.center = bomb.rct.center  # 反転なし
+        self.rct2.center = bomb.rct.center  # 反転あり
+        self.life = 10
+
+    def update(self, screen: pg.Surface):
+        self.life -= 1
+        if self.life is None:
+            screen.blit(self.img1, self.rct1)
+            screen.blit(self.img2, self.rct2)
+
+
+
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
@@ -174,6 +196,7 @@ def main():
     tmr = 0
     score = Score(0)  # スコア初期値
     beams = []  # 空のリスト
+    explosions = []  # 空のリスト
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -201,12 +224,15 @@ def main():
             # if beam is not None:
             for j, beam in enumerate(beams):
                 if beam.rct.colliderect(bomb.rct):
+                    explosion = Explosion(bomb)
+                    explosions.append(explosion)
                     beams[j] = None  # ビームを消す
                     bombs[i] = None  # 爆弾を消す
                     bird.change_img(6, screen)
                     score.score += 1
             beams = [beam for beam in beams if beam is not None]  # ビームのリストを更新
         score.update(screen)
+        Explosion.update(screen)
                     
         bombs = [bomb for bomb in bombs if bomb is not None]
 
