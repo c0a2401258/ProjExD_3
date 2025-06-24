@@ -168,12 +168,16 @@ def main():
 
         if bomb is not None:
             if beam is not None:
-                if beam.rct.coll
+                if beam.rct.colliderect(bomb.rct):
+                    beam = None
+                    bomb = None
+
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
         if beam is not None:  # ビームが存在するときだけ
             beam.update(screen)   
-        bomb.update(screen)
+        if bomb is not None:
+            bomb.update(screen)
         pg.display.update()
         tmr += 1
         clock.tick(50)
