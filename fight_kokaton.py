@@ -146,15 +146,16 @@ class Score:
     """
     def __init__(self, score: int):
         """
+        引数 score: スコアの値
         """
         self.score = score
         self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
-        self.img = self.fonto.render(f"スコア:{self.score}", 0, (0, 0, 255))
+        self.img = self.fonto.render(f"スコア:{self.score}", 0, (0, 0, 255))  # スコア表記
         self.rct = [100, HEIGHT-50]
         
     
     def update(self, screen: pg.Surface):
-        self.img = self.fonto.render(f"スコア:{self.score}", 0, (0, 0, 255))
+        self.img = self.fonto.render(f"スコア:{self.score}", 0, (0, 0, 255))  # スコア表記
         screen.blit(self.img, self.rct)
 
 
